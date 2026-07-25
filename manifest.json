@@ -1,0 +1,10 @@
+{
+  "name": "Momentum Trader",
+  "version": "1.0.0",
+  "author": "Reborn (@mac_slimme)",
+  "framework": "OpenClaw",
+  "category": "DeFi & Trading",
+  "source": "https://github.com/je-hezekiah/momentum-trader",
+  "license": "MIT",
+  "description": "Autonomous dual-direction momentum trading agent for Solana. Monitors pairs, detects momentum, and manages risk with dynamic stop-losses."
+}
