@@ -47,6 +47,7 @@ Momentum Trader monitors selected Solana pairs, detects momentum breakouts confi
 4. Monitor initial live trades closely before scaling.
 
 ## Author
-Joe-Thomas Prince
-Reborn (@mac_slimme)  
-GitHub: [je-hezekiah](https://github.com/je-hezekiah)
+Name: Joe-Thomas Prince
+X: (https://x.com/rbornn1)
+Email: rebornonx@gmail.com
+Github: https://github.com/je-hezekiah/momentum-trader
