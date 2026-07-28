@@ -1,0 +1,10 @@
+# Momentum Trader — Paper Trade Log Example (Phase A)
+
+# Format: timestamp | action | pair | direction | size | stop_loss | reason | notes
+
+2026-07-28T10:15:00Z | PROPOSAL | SOL/USDC | LONG | 100 USD | 8% | Momentum breakout + volume confirmation | Paper mode only
+2026-07-28T10:15:00Z | RISK_CHECK | SOL/USDC | LONG | 100 USD | - | Within risk_per_trade_pct (1.0%) | Passed
+2026-07-28T10:15:00Z | COOLDOWN | SOL/USDC | - | - | - | Last proposal 45s ago | Cooldown remaining: 75s
+2026-07-28T11:02:00Z | PROPOSAL | BONK/SOL | LONG | 80 USD | 8% | Clean breakout with rising volume | Paper mode only
+2026-07-28T11:02:00Z | DRAWDOWN_CHECK | - | - | - | - | Daily drawdown 1.2% / limit 5% | Passed
+2026-07-28T14:30:00Z | SKIP | SOL/USDC | - | - | - | Low volume, choppy price action | No proposal generated
