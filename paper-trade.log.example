@@ -1,10 +1,10 @@
 # Momentum Trader — Paper Trade Log Example (Phase A)
 
-# Format: timestamp | action | pair | direction | size | stop_loss | reason | notes
+# Format: timestamp | data_timestamp | source | action | pair | direction | observed_price | volume | size | entry_price | stop_price | reason | notes
 
-2026-07-28T10:15:00Z | PROPOSAL | SOL/USDC | LONG | 100 USD | 8% | Momentum breakout + volume confirmation | Paper mode only
-2026-07-28T10:15:00Z | RISK_CHECK | SOL/USDC | LONG | 100 USD | - | Within risk_per_trade_pct (1.0%) | Passed
-2026-07-28T10:15:00Z | COOLDOWN | SOL/USDC | - | - | - | Last proposal 45s ago | Cooldown remaining: 75s
-2026-07-28T11:02:00Z | PROPOSAL | BONK/SOL | LONG | 80 USD | 8% | Clean breakout with rising volume | Paper mode only
-2026-07-28T11:02:00Z | DRAWDOWN_CHECK | - | - | - | - | Daily drawdown 1.2% / limit 5% | Passed
-2026-07-28T14:30:00Z | SKIP | SOL/USDC | - | - | - | Low volume, choppy price action | No proposal generated
+2026-07-28T10:15:00Z | 2026-07-28T10:14:55Z | public Solana RPC | PROPOSAL | SOL/USDC | LONG | 148.25 | 1.2M | 100 USD | 148.25 | 136.39 | Momentum breakout + volume confirmation | Paper mode only
+2026-07-28T10:15:00Z | 2026-07-28T10:14:55Z | public Solana RPC | RISK_CHECK | SOL/USDC | LONG | 148.25 | 1.2M | 100 USD | 148.25 | 136.39 | Within risk_per_trade_pct (1.0%) | Passed
+2026-07-28T10:16:30Z | 2026-07-28T10:16:28Z | public Solana RPC | SKIP | SOL/USDC | - | 148.40 | 0.9M | - | - | - | Cooldown active (90s remaining) | No new proposal
+2026-07-28T11:02:00Z | 2026-07-28T11:01:55Z | public Solana RPC | PROPOSAL | BONK/SOL | LONG | 0.00001842 | 850K | 80 USD | 0.00001842 | 0.00001695 | Clean breakout with rising volume | Paper mode only
+2026-07-28T11:02:00Z | 2026-07-28T11:01:55Z | public Solana RPC | DRAWDOWN_CHECK | - | - | - | - | - | - | - | Daily drawdown 1.2% / limit 5% | Passed
+2026-07-28T14:30:00Z | 2026-07-28T14:29:50Z | public Solana RPC | SKIP | SOL/USDC | - | 147.80 | 0.4M | - | - | - | Low volume, choppy price action | No proposal generated
