@@ -16,4 +16,9 @@
   "max_weekly_drawdown_pct": 12,
   "allow_short": false,
   "allow_live_execution": false
+  "market_data_source": "public Solana RPC + price feed",
+  "timeframe": "5m",
+  "lookback_window": 24,
+  "evaluation_cadence": "every 5 minutes",
+  "state_storage": "in-memory (Phase A)"
 }
