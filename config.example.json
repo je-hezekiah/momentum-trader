@@ -5,6 +5,7 @@
     "SOL/USDC",
     "BONK/SOL"
   ],
+  "initial_paper_balance_usd": 10000,
   "max_position_usd": 100,
   "risk_per_trade_pct": 1.0,
   "stop_loss_pct": 8,
@@ -15,10 +16,11 @@
   "max_daily_drawdown_pct": 5,
   "max_weekly_drawdown_pct": 12,
   "allow_short": false,
-  "allow_live_execution": false
-  "market_data_source": "public Solana RPC + price feed",
+  "allow_live_execution": false,
+  "market_data_source": "Birdeye API (public Solana price + volume feed)",
   "timeframe": "5m",
   "lookback_window": 24,
-  "evaluation_cadence": "every 5 minutes",
-  "state_storage": "in-memory (Phase A)"
+  "evaluation_cadence": "manual (Phase A)",
+  "state_storage": "file",
+  "state_path": "/home/node/.openclaw/workspace/state/momentum-trader-state.json"
 }
