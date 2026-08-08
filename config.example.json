@@ -17,9 +17,10 @@
   "max_weekly_drawdown_pct": 12,
   "allow_short": false,
   "allow_live_execution": false,
-  "market_data_source": "Birdeye API (public Solana price + volume feed)",
+  "market_data_source": "Birdeye API or public Solana 5-minute OHLCV feed",
   "timeframe": "5m",
   "lookback_window": 24,
+  "data_requirements": "timestamped 5-minute OHLCV + volume",
   "evaluation_cadence": "manual (Phase A)",
   "state_storage": "file",
   "state_path": "/home/node/.openclaw/workspace/state/momentum-trader-state.json"
