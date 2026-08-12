@@ -82,7 +82,7 @@ Every decision and every live action must produce a structured log entry contain
 
 ### 8. State Handling
 - Every evaluation updates `last_evaluation`.
-- Only a unique new PROPOSAL updates `last_proposal_timestamps` and starts cooldown.
+- Only a unique new PROPOSAL updates `last_proposal_timestamps` and starts the cooldown.
 - SKIP never starts or extends cooldown.
 - Cooldown is calculated strictly from stored timestamps.
 
