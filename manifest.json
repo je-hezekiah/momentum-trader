@@ -1,10 +1,10 @@
 {
   "name": "Momentum Trader",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Reborn (@Rbornn1)",
   "framework": "OpenClaw",
   "category": "DeFi & Trading",
   "source": "https://github.com/je-hezekiah/momentum-trader",
   "license": "MIT",
-  "description": "Phase A long-only paper trading agent for Solana. Monitors pairs, detects momentum signals, and produces risk-managed trade proposals only. No live execution."
+  "description": "Phase B preparation – limited live spot validation for Solana. Long-only, SOL/USDC only, max $10 notional, kill switch active, live execution disabled by default. Single 8% stop-loss, evaluation locking/idempotency, and structured logging."
 }
