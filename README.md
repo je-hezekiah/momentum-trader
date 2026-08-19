@@ -2,32 +2,37 @@
 
 Autonomous momentum trading agent template for Solana, designed for the Hatcher platform (OpenClaw).
 
-## Current Status: Phase B Preparation (Limited Live Spot Validation)
+## Current Status: Phase B2 Preparation
 
-Phase A (24-hour paper observation) has been successfully completed and approved by the Hatcher team.
+Phase B1 (supervised $10 SOL/USDC entry-to-exit) has been successfully completed and accepted by the Hatcher team.
 
-Live execution is **disabled by default**.  
-A kill switch is active.  
-Do **not** fund the wallet or enable autonomous live trading until Hatcher reviews the updated commit and coordinates the first supervised transaction.
+Live execution remains **disabled by default**.  
+Autonomous schedule remains **off**.  
+Kill switch is active.  
+Wallet remains unfunded until Hatcher explicitly approves the next step.
 
-### Phase B Hard Restrictions (first supervised validation)
+### Phase B Hard Restrictions
 - Pair: **SOL/USDC only**
-- Direction: **Long only** (spot)
+- Direction: **Long only**
 - Max notional per trade: **$10**
 - Max open positions: **1**
 - Realized daily loss limit: **$2**
 - Max slippage: **75 bps**
-- Single documented stop-loss: **8%** (from config)
+- Live equity baseline: **$10** (excludes 0.04 SOL reserve)
+- Single documented stop-loss: **8%**
 
-### Key Safety Features Added for Phase B
-- Evaluation locking / idempotency (no duplicate orders for the same closed candle)
-- Retry handling that fails safely to SKIP without changing trading state
-- Live execution mode disabled by default + kill switch
-- Pre-execution validation of balance, quote, liquidity, price freshness, and expected output
-- Structured execution logs (signal candle, decision, quote, transaction signature, result, state changes)
+### Key Safety Features
+- Durable candle decision keys (idempotency)
+- UUID persistence before every Jupiter intent
+- Timeout-safe reconciliation (same UUID only — never a new execution)
+- Dedicated `SKIP: DUPLICATE_MANUAL_CLOSE` key for manual closes
+- Hard $10 policy limit (`LIVE_SKIP: POLICY_LIMIT`)
+- Post-transaction reconciliation using signature + final balances
+- Paper balance and live equity are fully separated
+- Live drawdown calculated only against the $10 baseline
 
 ## Overview
-Momentum Trader monitors selected Solana pairs, detects momentum breakouts confirmed by volume, and generates risk-managed trade proposals. It enforces position sizing, stop-loss rules, cooldowns, and drawdown limits.
+Momentum Trader monitors selected Solana pairs, detects volume-confirmed momentum breakouts, and generates risk-managed trade proposals. It enforces position sizing, stop-loss rules, cooldowns, drawdown limits, and strict idempotency.
 
 ## Framework
 - **Runtime:** OpenClaw  
@@ -51,18 +56,26 @@ Key safety settings:
 - `"mode": "paper"` → Forces paper / read-only behaviour
 - `"allow_live_execution": false` → Prevents real trades (default)
 - `"kill_switch": true` → Blocks all live actions when true
-- `"allow_short": false` → Short selling is disabled
+- `"max_position_usd": 10` → Hard Phase B limit
+- `"live_equity_baseline_usd": 10` → Pilot live equity baseline
+- `"realized_daily_loss_limit_usd": 2`
 - `"stop_loss_pct": 8` → Single documented stop-loss rule
-- `"max_position_usd": 10` → Phase B hard limit
-- `"realized_daily_loss_limit_usd": 2` → Phase B hard limit
 
 **Important:** Never commit private keys, API keys, or wallet secrets.
 
 ## How Configuration & State Work
 - The agent loads settings from the configuration file at startup.
-- Cooldowns, open positions, daily/weekly drawdown, and evaluation locks are tracked in state between runs.
+- Cooldowns, open positions, daily/weekly drawdown, decision keys, UUIDs, and pending intents are tracked in state.
 - Evaluation locking prevents duplicate proposals/orders for the same closed 5-minute candle.
-- Retries and overlapping runs fail safely to SKIP without modifying trading state.
+- Manual closes use a dedicated key and return `SKIP: DUPLICATE_MANUAL_CLOSE`.
+- Timeouts after a mutation never create a new UUID or new execution attempt — only reconciliation with the original UUID is allowed.
+
+## Required Fixture Coverage
+The following negative cases are supported:
+- Over-limit size ($10.01 / $11) → `LIVE_SKIP: POLICY_LIMIT.`
+- Duplicate candle → `SKIP: DUPLICATE_CANDLE`
+- Duplicate manual-close attempts → `SKIP: DUPLICATE_MANUAL_CLOSE`
+- Transaction succeeded, but agent response timed out → reconciliation only (same UUID, not a new execution)
 
 ## Required Integrations
 - Solana RPC / price data
@@ -75,18 +88,6 @@ Key safety settings:
 - Momentum strategies carry market risk.
 - Always review proposed trades carefully before any future live use.
 - Live mode remains disabled until explicitly enabled by Hatcher.
-
-## Testing
-### Phase A (Completed)
-- Paper-only operation
-- Correct SKIP behaviour
-- Persistent state
-- No trading tools or signatures
-
-### Phase B Preparation
-- Live mode remains disabled
-- Hard restrictions listed above are enforced
-- Idempotency and safe retry behaviour are required
 
 ## Author
 X: Reborn (@Rbornn1)  
