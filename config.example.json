@@ -3,6 +3,7 @@
   "network": "solana-mainnet",
   "pairs": ["SOL/USDC"],
   "initial_paper_balance_usd": 10000,
+  "live_equity_baseline_usd": 10,
   "max_position_usd": 10,
   "risk_per_trade_pct": 1.0,
   "stop_loss_pct": 8,
@@ -21,9 +22,9 @@
   "timeframe": "5m",
   "lookback_window": 24,
   "data_requirements": "timestamped 5-minute OHLCV + volume",
-  "evaluation_cadence": "scheduled or manual",
+  "evaluation_cadence": "manual (Phase B2)",
   "state_storage": "file",
   "state_path": "/home/node/.openclaw/workspace/state/momentum-trader-state.json",
-  "phase": "B-preparation",
-  "notes": "Live execution remains disabled until Hatcher enables it. Phase B limits are hard-coded for the first supervised validation."
+  "phase": "B2-preparation",
+  "notes": "Live execution remains disabled by default. live_equity_baseline_usd is $10 for the pilot (excludes 0.04 SOL reserve). Schedule stays off until Hatcher enables it."
 }
