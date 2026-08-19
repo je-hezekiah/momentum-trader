@@ -80,21 +80,30 @@ If any check fails → LIVE_SKIP. Do not submit the transaction.
 When `kill_switch` is true, the decision at the execution gate must be **LIVE_SKIP: KILL_SWITCH**.
 
 ### 9. Position Close / Exit Flow
-- Primary exit method: **8% stop-loss** calculated from entry price.
-- When a stop-loss is triggered (or a later take-profit / manual close is enabled), the agent must:
-  1. Record the exit decision using the same durable key logic
-  2. Update paper or live position state (clear the open position)
+- Primary automatic exit: **8% stop-loss** calculated from entry price.
+- When a stop-loss is triggered the agent must:
+  1. Record the exit decision using the durable key logic
+  2. Update position state (clear the open position)
   3. Log the exit price, realized P&L, and exit reason
   4. Update `realized_pnl_usd` and drawdown metrics
-- In Phase B only the hard 8% stop-loss is active. No trailing stop or discretionary exits are enabled yet.
 
-### 10. State Handling
+### 10. HATCHER_APPROVED_MANUAL_CLOSE (Pilot Only)
+For the first supervised Phase B pilot, a manual close path is available:
+- Can **only** close the currently tracked SOL position back to USDC
+- Must **never** open a new position or increase size
+- Uses the same maximum 75 bps slippage cap
+- Must be idempotent (safe to retry)
+- Must record the exit transaction signature and realized P&L in state and logs
+- Can only be triggered by explicit Hatcher approval / supervised instruction
+- The autonomous strategy continues to use only the 8% stop-loss as its automatic exit
+
+### 11. State Handling
 - Every evaluation updates `last_evaluation`.
 - Only a unique new PROPOSAL updates `last_proposal_timestamps` and starts cooldown.
 - SKIP and LIVE_SKIP never start or extend cooldown.
 - Cooldown is calculated strictly from stored timestamps.
 
-### 11. Data Sources
+### 12. Data Sources
 - Primary signal source may be Binance 5m klines (or any public 5m feed).
 - Every live transaction must be re-validated against the actual Solana execution quote.
 - Birdeye remains optional.
@@ -103,7 +112,7 @@ When `kill_switch` is true, the decision at the execution gate must be **LIVE_SK
 Always include:
 - Pair
 - Direction (Long only)
-- Decision (PROPOSAL / SKIP / LIVE_SKIP / LIVE_EXECUTE / SKIP: DUPLICATE_CANDLE / LIVE_SKIP: POLICY_LIMIT)
+- Decision (PROPOSAL / SKIP / LIVE_SKIP / LIVE_EXECUTE / SKIP: DUPLICATE_CANDLE / LIVE_SKIP: POLICY_LIMIT / HATCHER_APPROVED_MANUAL_CLOSE)
 - Entry reason or skip reason
 - Suggested / actual size (must be ≤ $10)
 - Stop-loss level (8% rule)
