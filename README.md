@@ -2,14 +2,14 @@
 
 Autonomous momentum trading agent template for Solana, designed for the Hatcher platform (OpenClaw).
 
-## Current Status: Phase B Validated
+## Current Status: Phase B2 Validated
 
-Phase B1 (supervised $10 SOL/USDC entry-to-exit) has been successfully completed and accepted by the Hatcher team.
+Phase B2 (supervised $10 SOL/USDC entry-to-exit) has been successfully completed and accepted by the Hatcher team.
 
 Live execution remains **disabled by default**.  
 Autonomous schedule remains **off**.  
 Kill switch is active.  
-Wallet remains unfunded until Hatcher explicitly approves the next step.
+New template deployments start unfunded by default.
 
 ## Phase B Validation Result (Test)
 
@@ -40,7 +40,7 @@ This was a supervised test under tight limits. It is **not** a performance claim
 - Durable candle decision keys (idempotency)
 - UUID persistence before every Jupiter intent
 - Timeout-safe reconciliation (same UUID only — never a new execution)
-- Dedicated `SKIP: DUPLICATE_MANUAL_CLOSE` key for manual closes
+- Dedicated position-specific `SKIP: DUPLICATE_MANUAL_CLOSE` key (uses entry transaction signature)
 - Hard $10 policy limit (`LIVE_SKIP: POLICY_LIMIT`)
 - Post-transaction reconciliation using signature + final balances
 - Paper balance and live equity are fully separated
@@ -82,7 +82,7 @@ Key safety settings:
 - The agent loads settings from the configuration file at startup.
 - Cooldowns, open positions, daily/weekly drawdown, decision keys, UUIDs, and pending intents are tracked in state.
 - Evaluation locking prevents duplicate proposals/orders for the same closed 5-minute candle.
-- Manual closes use a dedicated key and return `SKIP: DUPLICATE_MANUAL_CLOSE`.
+- Manual closes use a position-specific key based on the entry transaction signature and return `SKIP: DUPLICATE_MANUAL_CLOSE`.
 - Timeouts after a mutation never create a new UUID or new execution attempt — only reconciliation with the original UUID is allowed.
 
 ### Routine Evaluation State Rule
@@ -97,7 +97,7 @@ The following negative cases are supported:
 - Over-limit size ($10.01 / $11) → `LIVE_SKIP: POLICY_LIMIT`
 - Duplicate candle → `SKIP: DUPLICATE_CANDLE`
 - Duplicate manual-close attempts → `SKIP: DUPLICATE_MANUAL_CLOSE`
-- Transaction succeeded, but agent response timed out → reconciliation only (same UUID, not a new execution)
+- Transaction succeeded but agent response timed out → reconciliation only (same UUID, not a new execution)
 
 ## Required Integrations
 - Solana RPC / price data
