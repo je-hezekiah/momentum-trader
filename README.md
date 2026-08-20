@@ -2,7 +2,7 @@
 
 Autonomous momentum trading agent template for Solana, designed for the Hatcher platform (OpenClaw).
 
-## Current Status: Phase B2 Preparation
+## Current Status: Phase B Validated
 
 Phase B1 (supervised $10 SOL/USDC entry-to-exit) has been successfully completed and accepted by the Hatcher team.
 
@@ -10,6 +10,21 @@ Live execution remains **disabled by default**.
 Autonomous schedule remains **off**.  
 Kill switch is active.  
 Wallet remains unfunded until Hatcher explicitly approves the next step.
+
+## Phase B Validation Result (Test)
+
+A controlled Phase B pilot was completed with Hatcher's supervision:
+
+- One supervised SOL/USDC long position was opened and closed
+- Entry: 9.978683 USDC → 0.118663549 SOL
+- Exit: 0.118663549 SOL → 10.239204 USDC
+- Realized PnL: +0.260521 USDC
+- Both transactions were confirmed and reconciled
+- SOL reserve was preserved
+- No duplicate execution or reconciliation issues occurred
+- Server-side $10 cap, single-position limit, idempotency, and state handling all functioned correctly
+
+This was a supervised test under tight limits. It is **not** a performance claim or guarantee of future results.
 
 ### Phase B Hard Restrictions
 - Pair: **SOL/USDC only**
@@ -70,9 +85,16 @@ Key safety settings:
 - Manual closes use a dedicated key and return `SKIP: DUPLICATE_MANUAL_CLOSE`.
 - Timeouts after a mutation never create a new UUID or new execution attempt — only reconciliation with the original UUID is allowed.
 
+### Routine Evaluation State Rule
+On normal HOLD / SKIP evaluations the agent may only:
+- Update `last_evaluation`
+- Append an entry to the structured log
+
+It must **not** modify decision keys, open positions, cooldowns, or any other trading state.
+
 ## Required Fixture Coverage
 The following negative cases are supported:
-- Over-limit size ($10.01 / $11) → `LIVE_SKIP: POLICY_LIMIT.`
+- Over-limit size ($10.01 / $11) → `LIVE_SKIP: POLICY_LIMIT`
 - Duplicate candle → `SKIP: DUPLICATE_CANDLE`
 - Duplicate manual-close attempts → `SKIP: DUPLICATE_MANUAL_CLOSE`
 - Transaction succeeded, but agent response timed out → reconciliation only (same UUID, not a new execution)
