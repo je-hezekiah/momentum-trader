@@ -1,10 +1,10 @@
 {
   "name": "Momentum Trader",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Reborn (@Rbornn1)",
   "framework": "OpenClaw",
   "category": "DeFi & Trading",
   "source": "https://github.com/je-hezekiah/momentum-trader",
   "license": "MIT",
-  "description": "Phase B preparation – limited live spot validation for Solana. Long-only, SOL/USDC only, max $10 notional, kill switch active, live execution disabled by default. Single 8% stop-loss, evaluation locking/idempotency, and structured logging."
+  "description": "Phase B2 validated – limited live spot validation for Solana. Long-only, SOL/USDC only, max $10 notional, kill switch active, live execution disabled by default. Single 8% stop-loss, evaluation locking/idempotency, and structured logging. Builder-owned · Phase B pilot validated."
 }
