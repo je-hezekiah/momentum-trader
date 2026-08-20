@@ -25,6 +25,6 @@
   "evaluation_cadence": "manual (Phase B2)",
   "state_storage": "file",
   "state_path": "/home/node/.openclaw/workspace/state/momentum-trader-state.json",
-  "phase": "B2-preparation",
+  "phase": "B2-validated",
   "notes": "Live execution remains disabled by default. live_equity_baseline_usd is $10 for the pilot (excludes 0.04 SOL reserve). Schedule stays off until Hatcher enables it."
 }
